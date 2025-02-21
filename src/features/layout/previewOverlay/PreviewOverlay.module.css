@@ -1,0 +1,112 @@
+.overlay {
+  --drop-target-spacing: 40px;
+  --name-tag-vertical-offset: -24px;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  /* match the border width of the iFrame to prevent the overlay position being out by 1px */
+  border: 1px transparent solid;
+}
+
+.viewportOverlay {
+  position: absolute;
+  transition: opacity 0.1s ease-in-out;
+  opacity: 1;
+
+  &.isPanning {
+    transition: none;
+    opacity: 0;
+  }
+}
+
+.regionOverlay {
+  position: absolute;
+
+  &.dropTarget::before {
+    position: absolute;
+    display: block;
+    content: "";
+    pointer-events: none;
+    outline: 1px dashed var(--color-outline-root);
+    inset: var(--drop-target-spacing) 0; /* Offset extra drop target spacing added in ui/assets/css/preview.css. */
+  }
+
+  &.dropTarget .xbNameTagSlot {
+    top: calc(var(--name-tag-vertical-offset) + var(--drop-target-spacing));
+    display: block;
+  }
+}
+
+.componentOverlay {
+  position: absolute;
+
+  > span {
+    display: none;
+  }
+
+  &.selected {
+    outline: 1px dashed var(--color-outline-component);
+  }
+
+  &.hovered {
+    outline: 1px solid var(--color-outline-component);
+  }
+
+  &.selected:not(.dragging),
+  &.hovered:not(.dragging),
+  &:focus-visible:not(.dragging) {
+    > .sortableItem > .xbComponentControls > .xbNameTag {
+      display: block;
+    }
+  }
+
+  &.dragging {
+    outline: none;
+
+    .xbNameTag {
+      display: none;
+    }
+
+    .xbNameTagSlot {
+      display: block;
+    }
+  }
+}
+
+.slotOverlay {
+  position: absolute;
+
+  &.dropTarget {
+    outline: 1px dashed var(--color-outline-slot);
+    outline-offset: -1px;
+  }
+
+  &.hovered {
+    outline: 1px solid var(--purple-9);
+  }
+
+  &.hovered:not(.dragging),
+  &:focus-visible:not(.dragging) {
+    > .xbNameTag {
+      display: block;
+    }
+  }
+}
+
+.xbNameTag {
+  position: absolute;
+  z-index: 2;
+  top: var(--name-tag-vertical-offset);
+  display: none;
+  opacity: 1;
+}
+
+.sortableItem {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}

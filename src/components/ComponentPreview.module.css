@@ -1,0 +1,12 @@
+.Wrapper {
+  visibility: hidden;
+  overflow: hidden;
+  transform-origin: 0 0;
+  box-shadow: var(--shadow-5);
+  will-change: transform, opacity;
+}
+.IFrame {
+  min-height: 100%;
+  pointer-events: none;
+  border: 0;
+}

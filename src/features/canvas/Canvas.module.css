@@ -1,0 +1,53 @@
+.canvasPane {
+  position: fixed;
+  inset: var(--topbar-height) 0 0 0;
+  overflow: scroll;
+  background: var(--gray-8);
+}
+.canvas {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: fit-content;
+  height: auto;
+  min-height: fit-content;
+  padding: 80vh 80vw;
+  transition:
+    background-color 100ms ease-in-out,
+    opacity 0.3s ease-in-out;
+  opacity: 0;
+  background: var(--gray-4);
+  box-shadow: var(--shadow-3);
+  &.visible {
+    opacity: 1;
+  }
+  .isPanning & {
+    background: var(--gray-3);
+  }
+}
+.modifierKeyPressed .canvas {
+  cursor: zoom-in;
+  user-select: none;
+}
+.isPanning .canvas {
+  cursor: grabbing;
+  user-select: none;
+}
+.previewsContainer {
+  display: flex;
+  gap: 2em;
+}
+.modifierKeyPressed .canvas > *,
+.isPanning .canvas > * {
+  user-select: none;
+  pointer-events: none;
+}
+
+.canvasPane.hoveredComponent {
+  overflow: hidden;
+}
+
+.modifierKeyPressed .previewsContainer iframe {
+  pointer-events: none;
+}

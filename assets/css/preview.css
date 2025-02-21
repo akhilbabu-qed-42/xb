@@ -1,0 +1,85 @@
+/* Warning - the CSS in this file is loaded INSIDE the preview iFrame which means that
+care must be taken when adding classes in here. All classes should be very specific and
+contain some mention of XB to mitigate against pollution from other CSS loaded in the
+iFrame and to avoid polluting user styles.
+
+Also note, the HMR does not watch this file so you must refresh your page manually to see changes in here.
+
+This file is included as an attached Drupal library and as such is subject to CSS aggregation.
+ */
+
+:root {
+  /* Copied from the design tokens provided by Radix Themes and/or `ui/styles/tokens`.
+    We can't use those tokens directly because this CSS is loaded in an iFrame. */
+  --xb--space-2: 8px;
+  --xb--radius-1: 3px;
+  --xb--radius-2: 4px;
+  --xb--purple-9: #8e4ec6;
+  --xb--blue-slot-bg: #CCEDF9;
+  --xb--sortable-empty-height: 40px;
+}
+
+.xb--preview-dragging [data-xb-slot-id] {
+  min-height: 2rem;
+}
+
+/* @todo #3499364 the [data-xb-region] > .region may no longer be required */
+[data-xb-slot-id], [data-xb-region], [data-xb-region] > .region {
+  position: relative; /* required for the .xb--sortable-ghost absolute positioning to work */
+  display: flow-root; /* Prevent margin collapse from content inside */
+}
+
+.xb--sortable-slot-empty-placeholder {
+  min-height: var(--xb--sortable-empty-height);
+  background-color: var(--xb--blue-slot-bg);
+  background-image: url('../icons/drop-plain.svg');
+  background-repeat: repeat;
+  background-position: -5px -5px;
+  background-size: 29px 30px;
+  box-shadow: inset 0 0 10px rgba(53, 129, 158, 0.3);
+  [data-xb-uuid="content"] >  & {
+    min-height: calc(4 * var(--xb--sortable-empty-height));
+  }
+}
+.xb--preview-dragging *,
+.xb--preview-dragging {
+  cursor: grabbing !important;
+}
+
+.xb--sortable-ghost {
+  position: absolute;
+  z-index: 1;
+  right: var(--xb--space-2);
+  left: var(--xb--space-2);
+  height: 4px;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--xb--radius-1);
+  background-color: var(--xb--purple-9);
+}
+.xb--sortable-ghost * {
+  display: none;
+}
+[data-xb-slot-is-empty] .xb--sortable-ghost {
+  top: 0;
+}
+
+.xb--sortable-clone {
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+[data-xb-component-id="slot"] {
+  height: 100%;
+}
+
+.xb--sortable-slot-hover[data-xb-slot-is-empty] *:not(.xb--sortable-ghost) {
+  opacity: 0.2;
+}
+
+/* @todo #3499364 this only works for the content region, needs to work for other regions */
+[data-xb-uuid="content"], .region {
+  /* Provide "space" for SortableJS at the top and bottom as drop targets. */
+  margin: -40px 0;
+  padding: 40px 0;
+}
